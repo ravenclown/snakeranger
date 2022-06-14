@@ -21,8 +21,10 @@ rule cellranger:
   input:
     r1="reads/{accession}/{accession}_1.fastq",
     r2="reads/{accession}/{accession}_2.fastq",
-    idx="..."
+    idx="index/*"
   output:
+    bam="*.bam"
+    bai="*.bam.bai
   params:
     fastq_path="reads/{accession}"
     args="--nosecondary --id {accession}"
@@ -32,4 +34,8 @@ rule cellranger:
 
 rule umiTools:
   input:
-    " "
+    "*.bam"
+  output:
+    "*.dedup.bam"
+  shell:
+    "umi_tools dedup -I {input} -S {output}
